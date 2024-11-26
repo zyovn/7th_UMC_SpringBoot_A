@@ -27,11 +27,12 @@ public enum ErrorStatus implements BaseErrorCode {
     // 1. 특정 지역에 가게 추가하기 API
     REGION_NOT_FOUND(HttpStatus.NOT_FOUND, "REGION4001", "지역이 존재하지 않습니다."),
 
-    // 2. 가게에 리뷰 추가하기 API
-
-    // 3. 가게에 미션 추가하기 API
+    // 2. 가게에 리뷰 추가하기 API, 3. 가게에 미션 추가하기 API
+    STORE_NOT_FOUND(HttpStatus.NOT_FOUND, "STORE4001", "가게가 없습니다."),
 
     // 4. 가게의 미션을 도전 중인 미션에 추가 (미션 도전하기) API
+    MISSION_NOT_FOUND(HttpStatus.NOT_FOUND, "MISSION4001", "미션이 없습니다."),
+    MISSION_ONGOING(HttpStatus.BAD_REQUEST, "MISSION4002", "이미 진행 중인 미션입니다."),
 
     // 예시,,,
     ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND, "ARTICLE4001", "게시글이 없습니다.");

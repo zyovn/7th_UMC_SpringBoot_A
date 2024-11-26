@@ -5,27 +5,27 @@ import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import umc_7th.spring.apiPayload.code.status.ErrorStatus;
-import umc_7th.spring.repository.RegionRepository;
-import umc_7th.spring.validation.annotation.ExistRegion;
+import umc_7th.spring.repository.StoreRepository.StoreRepository;
+import umc_7th.spring.validation.annotation.ExistStore;
 
 @Component
 @RequiredArgsConstructor
-public class RegionExistValidator implements ConstraintValidator <ExistRegion, Long> { // 1. 특정 지역에 가게 추가하기 API
+public class StoreExistValidator implements ConstraintValidator<ExistStore, Long> { // 2. 가게에 리뷰 추가하기 API, 3. 가게에 미션 추가하기 API
 
-    private final RegionRepository regionRepository;
+    private final StoreRepository storeRepository;
 
     @Override
-    public void initialize(ExistRegion constraintAnnotation) {
+    public void initialize(ExistStore constraintAnnotation) {
         ConstraintValidator.super.initialize(constraintAnnotation);
     }
 
     @Override
     public boolean isValid(Long value, ConstraintValidatorContext context) {
-        boolean isValid = regionRepository.existsById(value);
+        boolean isValid = storeRepository.existsById(value);
 
         if (!isValid) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(ErrorStatus.REGION_NOT_FOUND.toString()).addConstraintViolation();
+            context.buildConstraintViolationWithTemplate(ErrorStatus.STORE_NOT_FOUND.toString()).addConstraintViolation();
         }
         return isValid;
     }
