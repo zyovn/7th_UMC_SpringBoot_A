@@ -2,8 +2,10 @@ package umc_7th.spring.converter;
 
 import org.springframework.data.domain.Page;
 import umc_7th.spring.domain.Member;
+import umc_7th.spring.domain.Mission;
 import umc_7th.spring.domain.Review;
 import umc_7th.spring.domain.enums.Gender;
+import umc_7th.spring.domain.mapping.MemberMission;
 import umc_7th.spring.web.dto.MemberDTO.MemberRequestDTO;
 import umc_7th.spring.web.dto.MemberDTO.MemberResponseDTO;
 
@@ -64,6 +66,29 @@ public class MemberConverter {
                 .totalElement(myReviewList.getTotalElements())
                 .ListSize(reviewPreViewDTOList.size())
                 .myReviewList(reviewPreViewDTOList)
+                .build();
+    }
+    public static MemberResponseDTO.MemberMissionPreviewDTO memberMissionPreviewDTO (MemberMission memberMission) { // 3. 내가 진행 중인 미션 목록 조회하기 API
+        return MemberResponseDTO.MemberMissionPreviewDTO.builder()
+                .storeName(memberMission.getMission().getStore().getName())
+                .reward(memberMission.getMission().getReward())
+                .status(memberMission.getStatus())
+                .missionSpec(memberMission.getMission().getMissionSpec())
+                .deadline(memberMission.getMission().getDeadline())
+                .createdAt(memberMission.getCreatedAt())
+                .build();
+    }
+    public static MemberResponseDTO.MemberMissionPreviewListDTO memberMissionPreviewListDTO (Page<MemberMission> myMissionList) {
+        List<MemberResponseDTO.MemberMissionPreviewDTO> memberMissionPreviewDTOList = myMissionList.stream()
+                .map(MemberConverter::memberMissionPreviewDTO).collect(Collectors.toList());
+
+        return MemberResponseDTO.MemberMissionPreviewListDTO.builder()
+                .isFirst(myMissionList.isFirst())
+                .isLast(myMissionList.isLast())
+                .totalPage(myMissionList.getTotalPages())
+                .totalElement(myMissionList.getTotalElements())
+                .ListSize(memberMissionPreviewDTOList.size())
+                .myMissionList(memberMissionPreviewDTOList)
                 .build();
     }
 }
